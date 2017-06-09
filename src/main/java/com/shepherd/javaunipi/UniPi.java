@@ -24,6 +24,12 @@ public class UniPi {
         this.port = port;
         this.http = http;
     }
+    
+    public UniPi (String hostname, int port) {
+        this.hostname = hostname;
+        this.port = port;
+        this.http = new UniPiJavaxHttp(protocol);
+    }
 
     public UniPi(String hostname) {
         this.hostname = hostname;
