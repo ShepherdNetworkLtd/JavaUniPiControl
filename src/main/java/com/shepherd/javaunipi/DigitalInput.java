@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DigitalInput {
 	private final UniPart device = UniPart.DIGITAL_INPUT;
@@ -29,7 +31,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener) throws IOException{
+	public void addListener(PropertyChangeListener listener) throws IOException, Exception{
 		addListener(listener, "value", 500);
 	}
 	
@@ -39,7 +41,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, int millis) throws IOException, Exception{
 		addListener(listener, "value", millis);
 	}
 	
@@ -50,7 +52,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, String property) throws IOException{
+	public void addListener(PropertyChangeListener listener, String property) throws IOException, Exception{
 		addListener(listener, property, 500);
 	}
 	
@@ -61,7 +63,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property) throws IOException, Exception{
 		addListener(listener, property.getPropertyName(), 500);
 	}
 	
@@ -72,7 +74,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws IOException, Exception{
 		addListener(listener, property.getPropertyName(), millis);
 	}
 	
@@ -83,7 +85,7 @@ public class DigitalInput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, final String property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, final String property, int millis) throws IOException, Exception{
 		String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 		_timers.add(new Timer());
 		_timers.get(_timers.size() - 1).schedule(new UniWatchTimerTask(_timers.size() - 1, new UniProperty(property, currentPropertyValue)){
@@ -94,10 +96,12 @@ public class DigitalInput {
 					if(!isPropertySame()){
 						_listeners.get(index).valueChanged(getProperty());
 					}
-				} catch (IOException e) {}
+				} catch (IOException e) {} catch (Exception ex) {
+                                Logger.getLogger(DigitalInput.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 			
-			private boolean isPropertySame() throws IOException{
+			private boolean isPropertySame() throws IOException, Exception{
 				String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 				if(currentPropertyValue.contentEquals(getProperty().getValue()))
 					return true;
@@ -125,7 +129,7 @@ public class DigitalInput {
 	 * @return 1 or 0 if digital input is on or off
 	 * @throws IOException
 	 */
-	public int getValue() throws IOException{
+	public int getValue() throws IOException, Exception{
 		return unipi.getIntValue(device, circuit);
 	}
 	
@@ -134,7 +138,7 @@ public class DigitalInput {
 	 * @return boolean status of digital input
 	 * @throws IOException
 	 */
-	public boolean isOn() throws IOException{
+	public boolean isOn() throws IOException, Exception{
 		int value = getValue();
 		if(value == 1)
 			return true;
@@ -164,7 +168,7 @@ public class DigitalInput {
 	 * @return Dev String from UniPiAPI
 	 * @throws IOException
 	 */
-	public String getDev() throws IOException{
+	public String getDev() throws IOException, Exception{
 		String[][] data = unipi.get(device, circuit, "dev");
 		return data[0][1];
 	}
@@ -175,7 +179,7 @@ public class DigitalInput {
 	 * @return gain of digital input
 	 * @throws IOException
 	 */
-	public Integer getDebounce() throws IOException{
+	public Integer getDebounce() throws IOException, Exception{
 		String[][] data = unipi.get(device, circuit, "debounce");
 		return Integer.parseInt(data[0][1]);
 	}
@@ -185,7 +189,7 @@ public class DigitalInput {
 	 * @return time status of digital input
 	 * @throws IOException
 	 */
-	public Double getTime() throws IOException{
+	public Double getTime() throws IOException, Exception{
 		String[][] data = unipi.get(device, circuit, "time");
 		return Double.parseDouble(data[0][1]);
 	}
@@ -195,7 +199,7 @@ public class DigitalInput {
 	 * @return all data about this part
 	 * @throws IOException
 	 */
-	public String[][] getAllData() throws IOException{
+	public String[][] getAllData() throws IOException, Exception{
 		return unipi.get(device, circuit);
 	}
 }
