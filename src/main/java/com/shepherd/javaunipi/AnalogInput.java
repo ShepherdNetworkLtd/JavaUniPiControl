@@ -7,7 +7,7 @@ import java.util.Timer;
 
 public class AnalogInput {
 	private final UniPart device = UniPart.ANALOG_INPUT;
-	private int circuit;
+	private String circuit;
 	private UniPi unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
@@ -18,7 +18,7 @@ public class AnalogInput {
 	 * @param circuit number of analog input
 	 * @param unipi instance of UniPi to send data
 	 */
-	public AnalogInput(UniPi unipi, int circuit){
+	public AnalogInput(UniPi unipi, String circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}
@@ -134,7 +134,7 @@ public class AnalogInput {
 	 * Get circuit number of this part
 	 * @return circuit number
 	 */
-	public int getCircuit(){
+	public String getCircuit(){
 		return circuit;
 	}
 	
