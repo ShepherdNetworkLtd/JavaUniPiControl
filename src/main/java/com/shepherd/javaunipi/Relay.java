@@ -8,17 +8,17 @@ import java.util.Timer;
 public class Relay {
 	private final UniPart device = UniPart.RELAY;
 	private int circuit;
-	private UniPi unipi;
+	private UniPiAPI unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
 	private List<Timer> _timers = new ArrayList<Timer>();
 	
 	/**
-	 * Part of the UniPi
+	 * Part of the UniPiAPI
 	 * @param circuit number of relay
-	 * @param unipi instance of UniPi to send data
+	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public Relay(UniPi unipi, int circuit){
+	public Relay(UniPiAPI unipi, int circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}
@@ -196,7 +196,7 @@ public class Relay {
 	/**
 	 * Not same as getDevice. Get device returns UniPiart, this method return dev string
 	 * You can see difference in UniPart.SENSOR: getDevice() returns SENSOR, but this method returns for example "temp" as thermometer
-	 * @return Dev String from UniPi
+	 * @return Dev String from UniPiAPI
 	 * @throws IOException
 	 */
 	public String getDev() throws IOException{

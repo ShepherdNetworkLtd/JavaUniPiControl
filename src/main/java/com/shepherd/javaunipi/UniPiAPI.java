@@ -9,7 +9,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class UniPi {
+public class UniPiAPI {
 	
 	public static final int HTTP = 0;
 	public static final int HTTPS = 1;
@@ -18,18 +18,18 @@ public class UniPi {
 	private int port = 80;
 	private int protocol = HTTP;
 	
-	public UniPi(String hostname, int port, int protocol){
+	public UniPiAPI(String hostname, int port, int protocol){
 		this.hostname = hostname;
 		this.port = port;
 		this.protocol = protocol;
 	}
 	
-	public UniPi(String hostname, int port){
+	public UniPiAPI(String hostname, int port){
 		this.hostname = hostname;
 		this.port = port;
 	}
 	
-	public UniPi(String hostname){
+	public UniPiAPI(String hostname){
 		this.hostname = hostname;
 	}
 	
