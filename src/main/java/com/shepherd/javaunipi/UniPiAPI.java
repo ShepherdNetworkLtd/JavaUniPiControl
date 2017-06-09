@@ -9,7 +9,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class UniPiAPI {
+public class UniPiAPI implements UniPi{
 	
 	public static final int HTTP = 0;
 	public static final int HTTPS = 1;
@@ -41,6 +41,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] getValue(UniPart device, Integer circuit) throws IOException{
 		return getValue(device, circuit.toString());
 	}
@@ -52,6 +53,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] getValue(UniPart device, String circuit) throws IOException{
 		return get(device, circuit, "value");
 	}
@@ -63,6 +65,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public int getIntValue(UniPart device, String circuit) throws IOException{
 		String[][] returnValue = getValue(device, circuit.toString());
 		int returnInteger = Integer.parseInt(returnValue[0][1]);
@@ -76,6 +79,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public int getIntValue(UniPart device, Integer circuit) throws IOException{
 		return getIntValue(device, circuit.toString());
 	}
@@ -87,6 +91,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public double getDoubleValue(UniPart device, Integer circuit) throws IOException{
 		return getDoubleValue(device, circuit.toString());
 	}
@@ -98,6 +103,7 @@ public class UniPiAPI {
 	 * @return current value of selected component
 	 * @throws IOException
 	 */
+        @Override
 	public double getDoubleValue(UniPart device, String circuit) throws IOException{
 		String[][] returnValue = getValue(device, circuit);
 		double returnDouble = Double.parseDouble(returnValue[0][1]);
@@ -111,6 +117,7 @@ public class UniPiAPI {
 	 * @return all properties of selected device and circuit
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] get(UniPart device, Integer circuit) throws IOException{
 		return get(device, circuit.toString());
 	}
@@ -122,6 +129,7 @@ public class UniPiAPI {
 	 * @return all properties of selected device and circuit
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] get(UniPart device, String circuit) throws IOException{
 		return get(device, circuit, "ALL");
 	}
@@ -131,6 +139,7 @@ public class UniPiAPI {
 	 * @return all information of all configured devices
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] getAll() throws IOException{
 		String returnedData = getData("://" + hostname + ":" + port + "/rest/all");
 		returnedData = returnedData.substring(1, returnedData.length() - 2);
@@ -153,6 +162,7 @@ public class UniPiAPI {
 	 * @return selected property of selected device and circuit
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] get(UniPart device, String circuit, String property) throws IOException{
 		if(device == UniPart.ALL)
 			return getAll();
@@ -202,6 +212,7 @@ public class UniPiAPI {
 	 * @return selected property of selected device and circuit
 	 * @throws IOException
 	 */
+        @Override
 	public String[][] get(UniPart device, Integer circuit, String property) throws IOException{
 		return get(device, circuit.toString(), property);
 	}
@@ -215,6 +226,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, Integer circuit, String property, Double value) throws IOException{
 		set(device, circuit.toString(), property, value.toString());
 	}
@@ -227,6 +239,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, String circuit, String property, Double value) throws IOException{
 		set(device, circuit, property, value.toString());
 	}
@@ -239,6 +252,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, Integer circuit, String property, Integer value) throws IOException{
 		set(device, circuit.toString(), property, value.toString());
 	}
@@ -251,6 +265,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, String circuit, String property, Integer value) throws IOException{
 		set(device, circuit, property, value.toString());
 	}
@@ -262,6 +277,7 @@ public class UniPiAPI {
 	 * @param prop UniPiProperty to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, String circuit, UniProperty prop) throws IOException{
 		set(device, circuit, prop.getPropertyName(), prop.getValue());
 	}
@@ -273,6 +289,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, Integer circuit, Integer value) throws IOException{
 		set(device, circuit.toString(), "value", value.toString());
 	}
@@ -284,6 +301,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, String circuit, Integer value) throws IOException{
 		set(device, circuit, "value", value.toString());
 	}
@@ -295,6 +313,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, String circuit, Double value) throws IOException{
 		set(device, circuit, "value", value.toString());
 	}
@@ -306,6 +325,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, Integer circuit, Double value) throws IOException{
 		set(device, circuit.toString(), "value", value.toString());
 	}
@@ -317,6 +337,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, Integer circuit, String value) throws IOException{
 		set(device, circuit.toString(), "value", value);
 	}
@@ -329,6 +350,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void setValue(UniPart device, String circuit, String value) throws IOException{
 		set(device, circuit, "value", value);
 	}
@@ -341,6 +363,7 @@ public class UniPiAPI {
 	 * @param value value to set
 	 * @throws IOException
 	 */
+        @Override
 	public void set(UniPart device, String circuit, String property, String value) throws IOException{
 		String deviceName = null;
 		switch(device){

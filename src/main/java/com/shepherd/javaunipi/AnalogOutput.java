@@ -8,7 +8,7 @@ import java.util.Timer;
 public class AnalogOutput {
 	private final UniPart device = UniPart.ANALOG_OUTPUT;
 	private int circuit;
-	private UniPiAPI unipi;
+	private UniPi unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
 	private List<Timer> _timers = new ArrayList<Timer>();
@@ -18,7 +18,7 @@ public class AnalogOutput {
 	 * @param circuit is default 1
 	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public AnalogOutput(UniPiAPI unipi){
+	public AnalogOutput(UniPi unipi){
 		this.circuit = 1;
 		this.unipi = unipi;
 	}
@@ -28,7 +28,7 @@ public class AnalogOutput {
 	 * @param circuit number of analog output
 	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public AnalogOutput(UniPiAPI unipi, int circuit){
+	public AnalogOutput(UniPi unipi, int circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}
@@ -135,7 +135,7 @@ public class AnalogOutput {
 	 * @param on true = on, false = off
 	 * @throws IOException
 	 */
-	public void setOff() throws IOException{
+	public void setOff() throws Exception{
 		unipi.setValue(device, circuit, 0);
 	}
 	
@@ -144,7 +144,7 @@ public class AnalogOutput {
 	 * @param value value from 0 to 10
 	 * @throws IOException
 	 */
-	public void setValue(int value) throws IOException{
+	public void setValue(int value) throws Exception{
 		if(value > 10)
 			value = 10;
 		unipi.setValue(device, circuit, value);

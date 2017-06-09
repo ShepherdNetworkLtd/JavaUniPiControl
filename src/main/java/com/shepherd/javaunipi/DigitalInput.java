@@ -8,7 +8,7 @@ import java.util.Timer;
 public class DigitalInput {
 	private final UniPart device = UniPart.DIGITAL_INPUT;
 	private String circuit;
-	private UniPiAPI unipi;
+	private UniPi unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
 	private List<Timer> _timers = new ArrayList<Timer>();
@@ -18,7 +18,7 @@ public class DigitalInput {
 	 * @param circuit id for digital input 
 	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public DigitalInput(UniPiAPI unipi, String circuit){
+	public DigitalInput(UniPi unipi, String circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}

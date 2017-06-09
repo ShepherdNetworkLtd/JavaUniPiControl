@@ -9,7 +9,7 @@ public class Thermometer {
 	private final UniPart device = UniPart.SENSOR;
 	private static final String dev = "temp";
 	private String circuit;
-	private UniPiAPI unipi;
+	private UniPi unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
 	private List<Timer> _timers = new ArrayList<Timer>();
@@ -19,7 +19,7 @@ public class Thermometer {
 	 * @param circuit name of sensor
 	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public Thermometer(UniPiAPI unipi, String circuit){
+	public Thermometer(UniPi unipi, String circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}
@@ -31,7 +31,7 @@ public class Thermometer {
 	 * @param unipi instance of UniPiAPI to send data
 	 * @throws IOException 
 	 */
-	public Thermometer(UniPiAPI unipi) throws IOException{
+	public Thermometer(UniPi unipi) throws IOException{
 		this.unipi = unipi;
 	
 		String[][] dataArray = unipi.getAll();

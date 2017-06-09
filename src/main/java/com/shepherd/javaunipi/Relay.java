@@ -8,7 +8,7 @@ import java.util.Timer;
 public class Relay {
 	private final UniPart device = UniPart.RELAY;
 	private int circuit;
-	private UniPiAPI unipi;
+	private UniPi unipi;
 	
 	private List<PropertyChangeListener> _listeners = new ArrayList<PropertyChangeListener>();
 	private List<Timer> _timers = new ArrayList<Timer>();
@@ -18,7 +18,7 @@ public class Relay {
 	 * @param circuit number of relay
 	 * @param unipi instance of UniPiAPI to send data
 	 */
-	public Relay(UniPiAPI unipi, int circuit){
+	public Relay(UniPi unipi, int circuit){
 		this.circuit = circuit;
 		this.unipi = unipi;
 	}
@@ -125,7 +125,7 @@ public class Relay {
 	 * @param on true = on, false = off
 	 * @throws IOException
 	 */
-	public void setOn(boolean on) throws IOException{
+	public void setOn(boolean on) throws Exception{
 		int value = 1;
 		if(!on)
 			value = 0;
@@ -137,7 +137,7 @@ public class Relay {
 	 * @param on 0 = off, else = on
 	 * @throws IOException
 	 */
-	public void setValue(int on) throws IOException{
+	public void setValue(int on) throws Exception{
 		if(on == 0)
 			setOn(false);
 		else
@@ -149,7 +149,7 @@ public class Relay {
 	 * @param on 0 = off, else = on
 	 * @throws IOException
 	 */
-	public void setValue(char on) throws IOException{
+	public void setValue(char on) throws Exception{
 		if(on == 0)
 			setOn(false);
 		else
@@ -218,7 +218,7 @@ public class Relay {
 	 * Toggle status of relay
 	 * @throws IOException 
 	 */
-	public void toggle() throws IOException{
+	public void toggle() throws Exception{
 		setOn(!isOn());
 	}
 	
