@@ -44,7 +44,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public String[][] getValue(UniPart device, Integer circuit) throws IOException, Exception {
+    public String[][] getValue(UniPart device, Integer circuit) throws Exception {
         return getValue(device, circuit.toString());
     }
 
@@ -56,7 +56,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public String[][] getValue(UniPart device, String circuit) throws IOException, Exception {
+    public String[][] getValue(UniPart device, String circuit) throws Exception {
         return get(device, circuit, "value");
     }
 
@@ -68,7 +68,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public int getIntValue(UniPart device, String circuit) throws IOException, Exception {
+    public int getIntValue(UniPart device, String circuit) throws Exception {
         String[][] returnValue = getValue(device, circuit.toString());
         int returnInteger = Integer.parseInt(returnValue[0][1]);
         return returnInteger;
@@ -82,7 +82,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public int getIntValue(UniPart device, Integer circuit) throws IOException, Exception {
+    public int getIntValue(UniPart device, Integer circuit) throws Exception {
         return getIntValue(device, circuit.toString());
     }
 
@@ -94,7 +94,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public double getDoubleValue(UniPart device, Integer circuit) throws IOException, Exception {
+    public double getDoubleValue(UniPart device, Integer circuit) throws Exception {
         return getDoubleValue(device, circuit.toString());
     }
 
@@ -106,7 +106,7 @@ public class UniPi {
      * @return current value of selected component
      * @throws IOException
      */
-    public double getDoubleValue(UniPart device, String circuit) throws IOException, Exception {
+    public double getDoubleValue(UniPart device, String circuit) throws Exception {
         String[][] returnValue = getValue(device, circuit);
         double returnDouble = Double.parseDouble(returnValue[0][1]);
         return returnDouble;
@@ -120,7 +120,7 @@ public class UniPi {
      * @return all properties of selected device and circuit
      * @throws IOException
      */
-    public String[][] get(UniPart device, Integer circuit) throws IOException, Exception {
+    public String[][] get(UniPart device, Integer circuit) throws Exception {
         return get(device, circuit.toString());
     }
 
@@ -132,7 +132,7 @@ public class UniPi {
      * @return all properties of selected device and circuit
      * @throws IOException
      */
-    public String[][] get(UniPart device, String circuit) throws IOException, Exception {
+    public String[][] get(UniPart device, String circuit) throws Exception {
         return get(device, circuit, "ALL");
     }
 
@@ -142,7 +142,7 @@ public class UniPi {
      * @return all information of all configured devices
      * @throws IOException
      */
-    public String[][] getAll() throws IOException, Exception {
+    public String[][] getAll() throws Exception {
         String returnedData = http.getData("://" + hostname + ":" + port + "/rest/all");
         returnedData = returnedData.substring(1, returnedData.length() - 2);
         returnedData = returnedData.replaceAll("\\{", "");
@@ -166,7 +166,7 @@ public class UniPi {
      * @return selected property of selected device and circuit
      * @throws IOException
      */
-    public String[][] get(UniPart device, String circuit, String property) throws IOException, Exception {
+    public String[][] get(UniPart device, String circuit, String property) throws Exception {
         if (device == UniPart.ALL) {
             return getAll();
         }
@@ -218,7 +218,7 @@ public class UniPi {
      * @return selected property of selected device and circuit
      * @throws IOException
      */
-    public String[][] get(UniPart device, Integer circuit, String property) throws IOException, Exception {
+    public String[][] get(UniPart device, Integer circuit, String property) throws Exception {
         return get(device, circuit.toString(), property);
     }
 
@@ -231,7 +231,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void set(UniPart device, Integer circuit, String property, Double value) throws IOException, Exception {
+    public void set(UniPart device, Integer circuit, String property, Double value) throws Exception {
         set(device, circuit.toString(), property, value.toString());
     }
 
@@ -244,7 +244,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void set(UniPart device, String circuit, String property, Double value) throws IOException, Exception {
+    public void set(UniPart device, String circuit, String property, Double value) throws Exception {
         set(device, circuit, property, value.toString());
     }
 
@@ -257,7 +257,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void set(UniPart device, Integer circuit, String property, Integer value) throws IOException, Exception {
+    public void set(UniPart device, Integer circuit, String property, Integer value) throws Exception {
         set(device, circuit.toString(), property, value.toString());
     }
 
@@ -270,7 +270,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void set(UniPart device, String circuit, String property, Integer value) throws IOException, Exception {
+    public void set(UniPart device, String circuit, String property, Integer value) throws Exception {
         set(device, circuit, property, value.toString());
     }
 
@@ -282,7 +282,7 @@ public class UniPi {
      * @param prop UniPiProperty to set
      * @throws IOException
      */
-    public void set(UniPart device, String circuit, UniProperty prop) throws IOException, Exception {
+    public void set(UniPart device, String circuit, UniProperty prop) throws Exception {
         set(device, circuit, prop.getPropertyName(), prop.getValue());
     }
 
@@ -294,7 +294,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, Integer circuit, Integer value) throws IOException, Exception {
+    public void setValue(UniPart device, Integer circuit, Integer value) throws Exception {
         set(device, circuit.toString(), "value", value.toString());
     }
 
@@ -306,7 +306,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, String circuit, Integer value) throws IOException, Exception {
+    public void setValue(UniPart device, String circuit, Integer value) throws Exception {
         set(device, circuit, "value", value.toString());
     }
 
@@ -318,7 +318,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, String circuit, Double value) throws IOException, Exception {
+    public void setValue(UniPart device, String circuit, Double value) throws Exception {
         set(device, circuit, "value", value.toString());
     }
 
@@ -330,7 +330,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, Integer circuit, Double value) throws IOException, Exception {
+    public void setValue(UniPart device, Integer circuit, Double value) throws Exception {
         set(device, circuit.toString(), "value", value.toString());
     }
 
@@ -342,7 +342,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, Integer circuit, String value) throws IOException, Exception {
+    public void setValue(UniPart device, Integer circuit, String value) throws Exception {
         set(device, circuit.toString(), "value", value);
     }
 
@@ -354,7 +354,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void setValue(UniPart device, String circuit, String value) throws IOException, Exception {
+    public void setValue(UniPart device, String circuit, String value) throws Exception {
         set(device, circuit, "value", value);
     }
 
@@ -367,7 +367,7 @@ public class UniPi {
      * @param value value to set
      * @throws IOException
      */
-    public void set(UniPart device, String circuit, String property, String value) throws IOException, Exception {
+    public void set(UniPart device, String circuit, String property, String value) throws Exception {
         String deviceName = null;
         switch (device) {
             case RELAY:

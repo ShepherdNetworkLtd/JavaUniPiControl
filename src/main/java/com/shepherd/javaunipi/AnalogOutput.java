@@ -41,7 +41,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener) throws Exception{
 		addListener(listener, "value", 500);
 	}
 	
@@ -51,7 +51,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, int millis) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener, int millis) throws Exception{
 		addListener(listener, "value", millis);
 	}
 	
@@ -62,7 +62,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, String property) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener, String property) throws Exception{
 		addListener(listener, property, 500);
 	}
 	
@@ -73,7 +73,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener, UniProperty property) throws Exception{
 		addListener(listener, property.getPropertyName(), 500);
 	}
 	
@@ -84,7 +84,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws Exception{
 		addListener(listener, property.getPropertyName(), millis);
 	}
 	
@@ -95,7 +95,7 @@ public class AnalogOutput {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, final String property, int millis) throws IOException, Exception{
+	public void addListener(PropertyChangeListener listener, final String property, int millis) throws Exception{
 		String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 		_timers.add(new Timer());
 		_timers.get(_timers.size() - 1).schedule(new UniWatchTimerTask(_timers.size() - 1, new UniProperty(property, currentPropertyValue)){
@@ -111,7 +111,7 @@ public class AnalogOutput {
                             }
 			}
 			
-			private boolean isPropertySame() throws IOException, Exception{
+			private boolean isPropertySame() throws Exception{
 				String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 				if(currentPropertyValue.contentEquals(getProperty().getValue()))
 					return true;
@@ -159,7 +159,7 @@ public class AnalogOutput {
 	 * @param value new frequency of analog output
 	 * @throws IOException
 	 */
-	public void setFrequency(int value) throws IOException, Exception{
+	public void setFrequency(int value) throws Exception{
 		unipi.set(device, circuit, "frequency", value);
 	}
 	
@@ -177,7 +177,7 @@ public class AnalogOutput {
 	 * @return from 0 to 10, depends on the value
 	 * @throws IOException
 	 */
-	public double getValue() throws IOException, Exception{
+	public double getValue() throws Exception{
 		return unipi.getDoubleValue(device, circuit);
 	}
 	
@@ -186,7 +186,7 @@ public class AnalogOutput {
 	 * @return boolean status of analog output (if value not 0, then true)
 	 * @throws IOException
 	 */
-	public boolean isOn() throws IOException, Exception{
+	public boolean isOn() throws Exception{
 		double value = getValue();
 		if(value > 0.005)
 			return true;
@@ -215,7 +215,7 @@ public class AnalogOutput {
 	 * @return Dev String from UniPiAPI
 	 * @throws IOException
 	 */
-	public String getDev() throws IOException, Exception{
+	public String getDev() throws Exception{
 		String[][] data = unipi.get(device, circuit, "dev");
 		return data[0][1];
 	}
@@ -225,7 +225,7 @@ public class AnalogOutput {
 	 * @return frequency status of analog output
 	 * @throws IOException
 	 */
-	public int getFrequency() throws IOException, Exception{
+	public int getFrequency() throws Exception{
 		String[][] data = unipi.get(device, circuit, "frequency");
 		return Integer.parseInt(data[0][1]);
 	}
@@ -235,7 +235,7 @@ public class AnalogOutput {
 	 * @return all data about this part
 	 * @throws IOException
 	 */
-	public String[][] getAllData() throws IOException, Exception{
+	public String[][] getAllData() throws Exception{
 		return unipi.get(device, circuit);
 	}
 }
