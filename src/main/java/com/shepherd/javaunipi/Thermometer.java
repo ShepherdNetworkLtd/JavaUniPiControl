@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Thermometer {
 	private final UniPart device = UniPart.SENSOR;
@@ -15,9 +17,9 @@ public class Thermometer {
 	private List<Timer> _timers = new ArrayList<Timer>();
 	
 	/**
-	 * Part of the UniPi
+	 * Part of the UniPiAPI
 	 * @param circuit name of sensor
-	 * @param unipi instance of UniPi to send data
+	 * @param unipi instance of UniPiAPI to send data
 	 */
 	public Thermometer(UniPi unipi, String circuit){
 		this.circuit = circuit;
@@ -25,13 +27,13 @@ public class Thermometer {
 	}
 	
 	/**
-	 * Part of the UniPi
-	 * It will try to find out instance of dev temp
+	 * Part of the UniPiAPI
+ It will try to find out instance of dev temp
 	 * @param circuit name of sensor
-	 * @param unipi instance of UniPi to send data
+	 * @param unipi instance of UniPiAPI to send data
 	 * @throws IOException 
 	 */
-	public Thermometer(UniPi unipi) throws IOException{
+	public Thermometer(UniPi unipi) throws Exception{
 		this.unipi = unipi;
 	
 		String[][] dataArray = unipi.getAll();
@@ -64,7 +66,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener) throws IOException{
+	public void addListener(PropertyChangeListener listener) throws Exception{
 		addListener(listener, "value", 500);
 	}
 	
@@ -74,7 +76,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, int millis) throws Exception{
 		addListener(listener, "value", millis);
 	}
 	
@@ -85,7 +87,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, String property) throws IOException{
+	public void addListener(PropertyChangeListener listener, String property) throws Exception{
 		addListener(listener, property, 500);
 	}
 	
@@ -96,7 +98,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property) throws Exception{
 		addListener(listener, property.getPropertyName(), 500);
 	}
 	
@@ -107,7 +109,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws Exception{
 		addListener(listener, property.getPropertyName(), millis);
 	}
 	
@@ -118,7 +120,7 @@ public class Thermometer {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, final String property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, final String property, int millis) throws Exception{
 		String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 		_timers.add(new Timer());
 		_timers.get(_timers.size() - 1).schedule(new UniWatchTimerTask(_timers.size() - 1, new UniProperty(property, currentPropertyValue)){
@@ -129,10 +131,12 @@ public class Thermometer {
 					if(!isPropertySame()){
 						_listeners.get(index).valueChanged(getProperty());
 					}
-				} catch (IOException e) {}
+				} catch (Exception ex) {
+                                Logger.getLogger(Thermometer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 			
-			private boolean isPropertySame() throws IOException{
+			private boolean isPropertySame() throws Exception{
 				String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 				if(currentPropertyValue.contentEquals(getProperty().getValue()))
 					return true;
@@ -160,7 +164,7 @@ public class Thermometer {
 	 * @return
 	 * @throws IOException
 	 */
-	public double getInterval() throws IOException{
+	public double getInterval() throws Exception{
 		String[][] data = unipi.get(device, circuit, "interval");
 		return Double.parseDouble(data[0][1]);
 	}
@@ -170,7 +174,7 @@ public class Thermometer {
 	 * @return current temperature
 	 * @throws IOException
 	 */
-	public Double getValue() throws IOException{
+	public Double getValue() throws Exception{
 		return unipi.getDoubleValue(device, circuit);
 	}
 	
@@ -179,7 +183,7 @@ public class Thermometer {
 	 * @return boolean status of sensor
 	 * @throws IOException
 	 */
-	public boolean isLost() throws IOException{
+	public boolean isLost() throws Exception{
 		String value = unipi.get(device, circuit, "lost")[0][1];
 		if(value.contentEquals("true"))
 			return true;
@@ -191,7 +195,7 @@ public class Thermometer {
 	 * @return circuit number
 	 * @throws IOException 
 	 */
-	public String getAddress() throws IOException{
+	public String getAddress() throws Exception{
 		return unipi.get(device, circuit, "address")[0][1];
 	}
 	
@@ -214,7 +218,7 @@ public class Thermometer {
 	/**
 	 * Not same as getDevice. Get device returns UniPiart, this method return dev string
 	 * You can see difference in UniPart.SENSOR: getDevice() returns SENSOR, but this method returns for example "temp" as thermometer
-	 * @return Dev String from UniPi
+	 * @return Dev String from UniPiAPI
 	 * @throws IOException
 	 */
 	public String getDev() throws IOException{
@@ -226,7 +230,7 @@ public class Thermometer {
 	 * @return time status of sensor
 	 * @throws IOException
 	 */
-	public Double getTime() throws IOException{
+	public Double getTime() throws Exception{
 		String[][] data = unipi.get(device, circuit, "time");
 		return Double.parseDouble(data[0][1]);
 	}
@@ -236,7 +240,7 @@ public class Thermometer {
 	 * @return all data about this part
 	 * @throws IOException
 	 */
-	public String[][] getAllData() throws IOException{
+	public String[][] getAllData() throws Exception{
 		return unipi.get(device, circuit);
 	}
 }
