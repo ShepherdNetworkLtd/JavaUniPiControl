@@ -106,7 +106,7 @@ public class AnalogOutput {
 					if(!isPropertySame()){
 						_listeners.get(index).valueChanged(getProperty());
 					}
-				} catch (IOException e) {} catch (Exception ex) {
+				} catch (Exception ex) {
                                 Logger.getLogger(AnalogOutput.class.getName()).log(Level.SEVERE, null, ex);
                             }
 			}

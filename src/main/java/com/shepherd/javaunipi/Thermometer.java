@@ -131,7 +131,7 @@ public class Thermometer {
 					if(!isPropertySame()){
 						_listeners.get(index).valueChanged(getProperty());
 					}
-				} catch (IOException e) {} catch (Exception ex) {
+				} catch (Exception ex) {
                                 Logger.getLogger(Thermometer.class.getName()).log(Level.SEVERE, null, ex);
                             }
 			}
