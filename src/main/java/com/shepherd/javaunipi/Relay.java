@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Relay {
 	private final UniPart device = UniPart.RELAY;
@@ -14,9 +16,9 @@ public class Relay {
 	private List<Timer> _timers = new ArrayList<Timer>();
 	
 	/**
-	 * Part of the UniPi
+	 * Part of the UniPiAPI
 	 * @param circuit number of relay
-	 * @param unipi instance of UniPi to send data
+	 * @param unipi instance of UniPiAPI to send data
 	 */
 	public Relay(UniPi unipi, int circuit){
 		this.circuit = circuit;
@@ -29,7 +31,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener) throws IOException{
+	public void addListener(PropertyChangeListener listener) throws Exception{
 		addListener(listener, "value", 500);
 	}
 	
@@ -39,7 +41,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, int millis) throws Exception{
 		addListener(listener, "value", millis);
 	}
 	
@@ -50,7 +52,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, String property) throws IOException{
+	public void addListener(PropertyChangeListener listener, String property) throws Exception{
 		addListener(listener, property, 500);
 	}
 	
@@ -61,7 +63,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property) throws Exception{
 		addListener(listener, property.getPropertyName(), 500);
 	}
 	
@@ -72,7 +74,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, UniProperty property, int millis) throws Exception{
 		addListener(listener, property.getPropertyName(), millis);
 	}
 	
@@ -83,7 +85,7 @@ public class Relay {
 	 * @param milis how often look for change
 	 * @throws IOException
 	 */
-	public void addListener(PropertyChangeListener listener, final String property, int millis) throws IOException{
+	public void addListener(PropertyChangeListener listener, final String property, int millis) throws Exception{
 		String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 		_timers.add(new Timer());
 		_timers.get(_timers.size() - 1).schedule(new UniWatchTimerTask(_timers.size() - 1, new UniProperty(property, currentPropertyValue)){
@@ -94,10 +96,12 @@ public class Relay {
 					if(!isPropertySame()){
 						_listeners.get(index).valueChanged(getProperty());
 					}
-				} catch (IOException e) {}
+				} catch (Exception ex) {
+                                Logger.getLogger(Relay.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 			
-			private boolean isPropertySame() throws IOException{
+			private boolean isPropertySame() throws Exception{
 				String currentPropertyValue = unipi.get(device, circuit, property)[0][1];
 				if(currentPropertyValue.contentEquals(getProperty().getValue()))
 					return true;
@@ -125,7 +129,7 @@ public class Relay {
 	 * @param on true = on, false = off
 	 * @throws IOException
 	 */
-	public void setOn(boolean on) throws IOException{
+	public void setOn(boolean on) throws Exception{
 		int value = 1;
 		if(!on)
 			value = 0;
@@ -137,7 +141,7 @@ public class Relay {
 	 * @param on 0 = off, else = on
 	 * @throws IOException
 	 */
-	public void setValue(int on) throws IOException{
+	public void setValue(int on) throws Exception{
 		if(on == 0)
 			setOn(false);
 		else
@@ -149,7 +153,7 @@ public class Relay {
 	 * @param on 0 = off, else = on
 	 * @throws IOException
 	 */
-	public void setValue(char on) throws IOException{
+	public void setValue(char on) throws Exception{
 		if(on == 0)
 			setOn(false);
 		else
@@ -161,7 +165,7 @@ public class Relay {
 	 * @return 1 or 0 if relay is on or off
 	 * @throws IOException
 	 */
-	public int getValue() throws IOException{
+	public int getValue() throws Exception{
 		return unipi.getIntValue(device, circuit);
 	}
 	
@@ -170,7 +174,7 @@ public class Relay {
 	 * @return boolean status of relay
 	 * @throws IOException
 	 */
-	public boolean isOn() throws IOException{
+	public boolean isOn() throws Exception{
 		int value = getValue();
 		if(value == 1)
 			return true;
@@ -196,10 +200,10 @@ public class Relay {
 	/**
 	 * Not same as getDevice. Get device returns UniPiart, this method return dev string
 	 * You can see difference in UniPart.SENSOR: getDevice() returns SENSOR, but this method returns for example "temp" as thermometer
-	 * @return Dev String from UniPi
+	 * @return Dev String from UniPiAPI
 	 * @throws IOException
 	 */
-	public String getDev() throws IOException{
+	public String getDev() throws Exception{
 		String[][] data = unipi.get(device, circuit, "dev");
 		return data[0][1];
 	}
@@ -209,7 +213,7 @@ public class Relay {
 	 * @return pending status of relay
 	 * @throws IOException
 	 */
-	public boolean getPending() throws IOException{
+	public boolean getPending() throws Exception{
 		String[][] data = unipi.get(device, circuit, "pending");
 		return Boolean.parseBoolean(data[0][1]);
 	}
@@ -218,7 +222,7 @@ public class Relay {
 	 * Toggle status of relay
 	 * @throws IOException 
 	 */
-	public void toggle() throws IOException{
+	public void toggle() throws Exception{
 		setOn(!isOn());
 	}
 	
@@ -227,7 +231,7 @@ public class Relay {
 	 * @return all data about this part
 	 * @throws IOException
 	 */
-	public String[][] getAllData() throws IOException{
+	public String[][] getAllData() throws Exception{
 		return unipi.get(device, circuit);
 	}
 }
